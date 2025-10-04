@@ -1,320 +1,200 @@
-<!doctype html>
+  <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Follow TikTok → Hiển thị Script</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg-1:#091023;
-      --bg-2:#0f1b2b;
-      --muted:#99a6b3;
-      --accent:#7aa8ff;
-      --accent-2:#9b7cff;
-      --glass: rgba(255,255,255,0.03);
-      --glass-2: rgba(255,255,255,0.02);
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: linear-gradient(135deg, #6d5dfc, #a78bfa);
+      --muted: #9ca3af;
+      color-scheme: dark;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
-      background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
-      color:#e6eef6;
-      display:flex;align-items:center;justify-content:center;padding:28px
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      margin: 0;
+      background: linear-gradient(180deg,#071023 0%, #07172a 100%);
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 10px;
     }
-    .bg-fog{
-      position:fixed;inset:0;pointer-events:none;opacity:0.6;
-      background-image:radial-gradient(circle at 10% 20%, rgba(155,124,255,0.06), transparent 10%), 
-                       radial-gradient(circle at 80% 80%, rgba(122,168,255,0.045), transparent 15%)
+    .card {
+      width: min(760px, 100%);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 8px 25px rgba(2,6,23,.6);
+      font-size: 13px;
     }
-    .card{
-      width:min(880px,96%);
-      max-width:920px;
-      background:linear-gradient(180deg, rgba(11,18,32,0.85), rgba(4,8,16,0.75));
-      border-radius:16px;
-      padding:22px;
-      box-shadow:0 12px 40px rgba(4,8,16,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;
-      position:relative;overflow:hidden;
-      backdrop-filter: blur(14px);
+    h1 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #c4b5fd;
+      white-space: nowrap;
     }
-    .left{padding:18px}
-    h1{margin:0;font-size:20px;color:var(--accent-2);letter-spacing:0.2px}
-    p.lead{color:var(--muted);margin-top:8px;margin-bottom:16px;line-height:1.5}
-
-    .controls{display:flex;gap:10px;align-items:center}
-    .btn{
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      border:none;
-      padding:10px 14px;
-      border-radius:12px;
-      color:#042027;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(122,124,255,0.06);
-      transition:all .22s ease;
+    p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+    .row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: nowrap;
     }
-    .btn:hover{
-      transform:translateY(-3px) scale(1.02);
-      box-shadow:0 18px 40px rgba(122,124,255,0.12);
+    button {
+      font-size: 13px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .btn.ghost{
-      background:transparent;border:1px solid rgba(255,255,255,0.04);
-      color:var(--muted);font-weight:600
+    .btn-main {
+      background: var(--accent);
+      color: #fff;
     }
-
-    .meta{display:flex;gap:12px;align-items:center;margin-top:14px;color:var(--muted)}
-    .meta .small{font-size:13px}
-
-    .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;padding:18px;
-      border:1px solid rgba(255,255,255,0.03);
-      min-height:220px;display:flex;flex-direction:column;gap:12px;justify-content:space-between
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
     }
-    .panel header{display:flex;align-items:center;justify-content:space-between}
-    .panel header .label{font-weight:700;color:#dfe9ff}
-    .lang-toggle{
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,0.03);
-      padding:6px 10px;border-radius:8px;color:var(--muted);cursor:pointer
+    label { font-size: 13px; white-space: nowrap; }
+    input[type=number] {
+      width: 50px;
+      padding: 4px;
+      border-radius: 6px;
+      border: none;
+      background: #031022;
+      color: #e6eef6;
+      font-size: 13px;
     }
-
-    .counter{font-weight:800;font-size:20px;color:var(--accent);text-align:center}
-    .progress-wrap{height:10px;background:var(--glass-2);border-radius:999px;overflow:hidden}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s linear}
-
-    pre{
-      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
-      padding:14px;
-      border-radius:10px;
-      font-family:Roboto Mono, monospace;
-      font-size:13px;
-      color:#dbeafe;
-      overflow:auto;
-      max-height:260px;
-      opacity:.85;
-      transition:opacity .3s ease;
+    .status-row {
+      margin-top: 8px;
+      font-size: 13px;
+      display: flex;
+      gap: 10px;
+      white-space: nowrap;
     }
-
-    .script-actions{display:flex;gap:8px;align-items:center}
-    .copy-btn{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      color:var(--muted);
-      padding:8px 12px;border-radius:8px;cursor:pointer
+    .script-wrap {
+      margin-top: 12px;
+      background: #061225;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
     }
-    .copy-btn.primary{
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#02162a;border:none
+    .script-wrap header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      white-space: nowrap;
     }
-
-    .note{font-size:13px;color:var(--muted);margin-top:6px}
-    footer{grid-column:1/-1;margin-top:8px;color:rgba(255,255,255,0.06);font-size:12px;text-align:center}
-
-    @media (max-width:880px){
-      .card{grid-template-columns:1fr;}
-      .panel{order:2;margin-top:16px}
-      .left{order:1}
+    pre {
+      font-size: 12px;
+      margin: 0;
+      font-family: ui-monospace, monospace;
+      overflow-x: auto;
     }
+    .controls { display: flex; gap: 6px; }
+    .note { margin-top: 8px; color: #9aa6b3; font-size: 12px; }
   </style>
 </head>
 <body>
-  <div class="bg-fog"></div>
   <div class="card">
-    <div class="left">
-      <button id="langBtn" class="lang-toggle" title="Đổi ngôn ngữ">VN</button>
-      <h1 id="title">Follow TikTok → Hiển thị Script</h1>
-      <p class="lead" id="desc">Bấm nút để mở kênh TikTok. Sau khi bấm, hệ thống sẽ đếm ngược và hiển thị nội dung script .</p>
-      <div class="controls">
-        <button id="followBtn" class="btn">Mở kênh TikTok / Follow</button>
-        <button id="resetBtn" class="btn ghost">Reset</button>
-        <label style="margin-left:auto;color:var(--muted);display:flex;align-items:center;gap:8px">
-          <span id="delayLabel">Delay (giây):</span>
-          <input id="delayInput" type="number" min="1" value="5" style="width:70px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-        </label>
-      </div>
-      <div class="meta">
-        <div class="small" id="statusWrap">Trạng thái: <strong id="status">Chưa bấm</strong></div>
-        <div class="small">Đếm ngược: <span id="countdown">0</span>s</div>
-      </div>
-      <div class="note" id="noteText">LƯU Ý: bạn cần follow để lấy Script</div>
+    <h1>Follow TikTok → Hiển thị Script</h1>
+    <p>Bấm nút để mở kênh TikTok. Sau khi bấm, hệ thống sẽ đếm ngược và hiển thị script.</p>
+
+    <div class="row">
+      <button id="followBtn" class="btn-main">Mở kênh TikTok / Follow</button>
+      <button id="resetBtn" class="btn-ghost">Reset</button>
+      <label>Delay (giây): <input id="delayInput" type="number" min="1" value="5"></label>
     </div>
 
-    <aside class="panel">
-      <header>
-        <div class="label" id="scriptTitle">Script (hiển thị)</div>
-        <div style="font-size:12px;color:var(--muted)">Kênh: <span style="color:var(--accent)">@pilow.105</span></div>
-      </header>
-      <div>
-        <div class="counter" id="counterBig">0s</div>
-        <div class="progress-wrap" aria-hidden>
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-      </div>
-      <div>
-        <pre id="scriptPre">-- Script sẽ hiện ở đây --</pre>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-          <div class="script-actions">
-            <button id="copyBtn" class="copy-btn">Sao chép</button>
-            <button id="copyPrimary" class="copy-btn primary">Sao chép & Mở</button>
-          </div>
-          <div style="font-size:12px;color:var(--muted)">Ngôn ngữ: <span id="langLabel">VN</span></div>
-        </div>
-      </div>
-    </aside>
+    <div class="status-row">
+      <div>Trạng thái: <span id="status">Chưa bấm</span></div>
+      <div>Đếm ngược: <span id="countdown">0</span>s</div>
+    </div>
 
-    <footer>ủng hộ YNhi Script</footer>
+    <div class="script-wrap" id="scriptWrap">
+      <header>
+        <span>Script (hiển thị)</span>
+        <div class="controls">
+          <button id="copyBtn" class="btn-ghost">Sao chép</button>
+        </div>
+      </header>
+      <pre id="scriptPre">-- Script sẽ hiện ở đây --</pre>
+    </div>
+
+    <div class="note">LƯU Ý: bạn cần follow để lấy Script</div>
   </div>
 
   <script>
     const CHANNEL_URL = "https://www.tiktok.com/@pilow.105";
     const SCRIPT_CONTENT = `loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseScript/refs/heads/main/UpdateZysume"))()`;
 
-    const storedLang = localStorage.getItem('lang_pref');
-    const browserLang = navigator.language || navigator.userLanguage || 'en';
-    let lang = storedLang || (browserLang.toLowerCase().startsWith('vi') ? 'vi' : 'en');
-
-    const texts = {
-      vi: {
-        title: 'Follow TikTok → Hiển thị Script',
-        desc: 'Bấm nút để mở kênh TikTok. Sau khi bấm, hệ thống sẽ hiển thị nội dung script.',
-        followBtn: 'Mở kênh TikTok / Follow',
-        resetBtn: 'Reset',
-        delayLabel: 'Delay (giây):',
-        status_not: 'Chưa bấm',
-        status_wait: 'Đã mở kênh — đếm ngược...',
-        status_ready: 'Đã hiển thị script',
-        scriptTitle: 'Script (hiển thị)',
-        copyBtn: 'Sao chép',
-        copyPrimary: 'Sao chép & Mở',
-        copied: 'Đã sao chép',
-        note: 'LƯU Ý: bạn cần follow để lấy Script',
-        langLabel: 'VN'
-      },
-      en: {
-        title: 'Follow TikTok → Unlock Script',
-        desc: 'Click the button to open the TikTok channel. After that the page will countdown and reveal the script when finished.',
-        followBtn: 'Open TikTok / Follow',
-        resetBtn: 'Reset',
-        delayLabel: 'Delay (s):',
-        status_not: 'Not clicked',
-        status_wait: 'Channel opened — counting down...',
-        status_ready: 'Script revealed',
-        scriptTitle: 'Script (revealed)',
-        copyBtn: 'Copy',
-        copyPrimary: 'Copy & Open',
-        copied: 'Copied',
-        note: 'NOTE: you must follow to get the Script',
-        langLabel: 'EN'
-      }
-    };
-
-    const langBtn = document.getElementById('langBtn');
-    const titleEl = document.getElementById('title');
-    const descEl = document.getElementById('desc');
     const followBtn = document.getElementById('followBtn');
     const resetBtn = document.getElementById('resetBtn');
-    const delayInput = document.getElementById('delayInput');
-    const delayLabel = document.getElementById('delayLabel');
     const statusEl = document.getElementById('status');
     const countdownEl = document.getElementById('countdown');
+    const scriptWrap = document.getElementById('scriptWrap');
     const scriptPre = document.getElementById('scriptPre');
     const copyBtn = document.getElementById('copyBtn');
-    const copyPrimary = document.getElementById('copyPrimary');
-    const progressBar = document.getElementById('progressBar');
-    const counterBig = document.getElementById('counterBig');
-    const langLabel = document.getElementById('langLabel');
-    const scriptTitle = document.getElementById('scriptTitle');
-    const noteText = document.getElementById('noteText');
-
-    function applyLang(){
-      const t = texts[lang];
-      titleEl.textContent = t.title;
-      descEl.textContent = t.desc;
-      followBtn.textContent = t.followBtn;
-      resetBtn.textContent = t.resetBtn;
-      delayLabel.textContent = t.delayLabel;
-      statusEl.textContent = t.status_not;
-      scriptTitle.textContent = t.scriptTitle;
-      copyBtn.textContent = t.copyBtn;
-      copyPrimary.textContent = t.copyPrimary;
-      noteText.textContent = t.note;
-      langBtn.textContent = (lang === 'vi') ? 'VN' : 'EN';
-      langLabel.textContent = t.langLabel;
-    }
-    applyLang();
-
-    langBtn.addEventListener('click', () => {
-      lang = (lang === 'vi') ? 'en' : 'vi';
-      localStorage.setItem('lang_pref', lang);
-      applyLang();
-    });
-
-    scriptPre.textContent = "-- Script sẽ hiện ở đây --";
+    const delayInput = document.getElementById('delayInput');
 
     let timer = null;
-    function setProgress(percent){
-      progressBar.style.width = percent + '%';
-      counterBig.textContent = Math.ceil(percent/100 * (parseInt(delayInput.value)||5)) + 's';
-    }
 
     followBtn.addEventListener('click', () => {
       const delay = Math.max(1, parseInt(delayInput.value) || 5);
-      try{ window.open(CHANNEL_URL, '_blank'); }
-      catch(e){ alert('Trình duyệt có thể chặn pop-up. Hãy mở link kênh bằng tay: ' + CHANNEL_URL);}
-      statusEl.textContent = texts[lang].status_wait;
-      progressBar.style.width = '0%';
-      setProgress(0);
-      scriptPre.style.opacity = '0.6';
-      if(timer) clearInterval(timer);
-      let elapsed = 0;
-      timer = setInterval(()=>{
-        elapsed += 100/(delay*10);
-        if(elapsed >= 100){elapsed=100;clearInterval(timer);timer=null;revealScript();}
-        setProgress(elapsed);
-      },100);
+      try {
+        window.open(CHANNEL_URL, '_blank');
+      } catch {
+        alert('Trình duyệt chặn pop-up. Mở link: ' + CHANNEL_URL);
+      }
+      statusEl.textContent = 'Đã mở kênh — đếm ngược...';
+      scriptWrap.style.display = 'none';
+      countdownEl.textContent = delay;
+
+      if (timer) clearInterval(timer);
+      let remaining = delay;
+      timer = setInterval(() => {
+        remaining -= 1;
+        countdownEl.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(timer);
+          timer = null;
+          revealScript();
+        }
+      }, 1000);
     });
 
-    resetBtn.addEventListener('click', ()=>{
-      if(timer) clearInterval(timer); timer=null;
-      statusEl.textContent = texts[lang].status_not;
-      progressBar.style.width = '0%';
-      counterBig.textContent = '0s';
-      scriptPre.textContent = '-- Script sẽ hiện ở đây --';
-      scriptPre.style.opacity = '0.6';
+    resetBtn.addEventListener('click', () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+      statusEl.textContent = 'Chưa bấm';
+      countdownEl.textContent = '0';
+      scriptWrap.style.display = 'none';
     });
 
-    function revealScript(){
-      statusEl.textContent = texts[lang].status_ready;
+    function revealScript() {
+      statusEl.textContent = 'Đã hiển thị script';
       scriptPre.textContent = SCRIPT_CONTENT;
-      scriptPre.style.opacity = '1';
-      progressBar.style.width = '100%';
-      counterBig.textContent = '0s';
+      scriptWrap.style.display = 'block';
     }
 
-    copyBtn.addEventListener('click', async()=>{
-      try{
+    copyBtn.addEventListener('click', async () => {
+      try {
         await navigator.clipboard.writeText(SCRIPT_CONTENT);
-        copyBtn.textContent = texts[lang].copied;
-        setTimeout(()=>copyBtn.textContent=texts[lang].copyBtn,1200);
-      }catch(e){ alert((lang==='vi')? 'Không thể sao chép tự động — hãy bôi đen và sao chép thủ công.' : 'Cannot auto-copy — please select and copy manually.'); }
-    });
-
-    copyPrimary.addEventListener('click', async()=>{
-      try{ await navigator.clipboard.writeText(SCRIPT_CONTENT);}catch(e){}
-      const w = window.open('', '_blank');
-      if(w){
-        w.document.write('<pre style="white-space:pre-wrap;font-family:monospace;padding:16px">'+SCRIPT_CONTENT.replace(/</g,'&lt;')+'</pre>');
-        w.document.title = 'Script';
-      }else{
-        alert((lang==='vi')? 'Trình duyệt chặn pop-up — đã sao chép vào clipboard nếu được phép.' : 'Popup blocked — script copied to clipboard if allowed.');
+        copyBtn.textContent = 'Đã sao chép';
+        setTimeout(()=>copyBtn.textContent='Sao chép',1500);
+      } catch {
+        alert('Không thể sao chép — hãy copy thủ công.');
       }
-      copyPrimary.textContent = (lang==='vi')? 'Đã mở' : 'Opened';
-      setTimeout(()=>{ copyPrimary.textContent = texts[lang].copyPrimary; },1200);
     });
   </script>
 </body>
