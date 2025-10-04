@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
@@ -8,82 +7,119 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg-1:#091023; /* deep navy */
-      --bg-2:#0f1b2b; /* muted blue */
-      --card:#0b1220;
+      --bg-1:#091023;
+      --bg-2:#0f1b2b;
       --muted:#99a6b3;
-      --accent:#7aa8ff; /* soft blue */
-      --accent-2:#9b7cff; /* soft purple */
+      --accent:#7aa8ff;
+      --accent-2:#9b7cff;
       --glass: rgba(255,255,255,0.03);
       --glass-2: rgba(255,255,255,0.02);
-    }*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
-  color:#e6eef6;
-  display:flex;align-items:center;justify-content:center;padding:28px
-}
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#e6eef6;
+      display:flex;align-items:center;justify-content:center;padding:28px
+    }
+    .bg-fog{
+      position:fixed;inset:0;pointer-events:none;opacity:0.6;
+      background-image:radial-gradient(circle at 10% 20%, rgba(155,124,255,0.06), transparent 10%), 
+                       radial-gradient(circle at 80% 80%, rgba(122,168,255,0.045), transparent 15%)
+    }
+    .card{
+      width:min(880px,96%);
+      max-width:920px;
+      background:linear-gradient(180deg, rgba(11,18,32,0.85), rgba(4,8,16,0.75));
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 12px 40px rgba(4,8,16,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+      display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;
+      position:relative;overflow:hidden;
+      backdrop-filter: blur(14px);
+    }
+    .left{padding:18px}
+    h1{margin:0;font-size:20px;color:var(--accent-2);letter-spacing:0.2px}
+    p.lead{color:var(--muted);margin-top:8px;margin-bottom:16px;line-height:1.5}
 
-/* Subtle animated fog to make 'buồn' feeling */
-.bg-fog{position:fixed;inset:0;pointer-events:none;opacity:0.6;background-image:radial-gradient(circle at 10% 20%, rgba(155,124,255,0.06), transparent 10%), radial-gradient(circle at 80% 80%, rgba(122,168,255,0.045), transparent 15%)}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      border:none;
+      padding:10px 14px;
+      border-radius:12px;
+      color:#042027;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(122,124,255,0.06);
+      transition:all .22s ease;
+    }
+    .btn:hover{
+      transform:translateY(-3px) scale(1.02);
+      box-shadow:0 18px 40px rgba(122,124,255,0.12);
+    }
+    .btn.ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted);font-weight:600
+    }
 
-.card{
-  width:min(880px,96%);
-  max-width:920px;
-  background:linear-gradient(180deg, rgba(11,18,32,0.85), rgba(4,8,16,0.75));
-  border-radius:16px;
-  padding:22px;
-  box-shadow:0 12px 40px rgba(4,8,16,0.6);
-  border:1px solid rgba(255,255,255,0.03);
-  display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;
-  position:relative;overflow:hidden
-}
+    .meta{display:flex;gap:12px;align-items:center;margin-top:14px;color:var(--muted)}
+    .meta .small{font-size:13px}
 
-/* left - info */
-.left{padding:18px}
-h1{margin:0;font-size:20px;color:var(--accent-2);letter-spacing:0.2px}
-p.lead{color:var(--muted);margin-top:8px;margin-bottom:16px;line-height:1.5}
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      min-height:220px;display:flex;flex-direction:column;gap:12px;justify-content:space-between
+    }
+    .panel header{display:flex;align-items:center;justify-content:space-between}
+    .panel header .label{font-weight:700;color:#dfe9ff}
+    .lang-toggle{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.03);
+      padding:6px 10px;border-radius:8px;color:var(--muted);cursor:pointer
+    }
 
-.controls{display:flex;gap:10px;align-items:center}
-.btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:10px 14px;border-radius:10px;color:#042027;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(122,124,255,0.06);transition:transform .16s ease,box-shadow .16s}
-.btn:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(122,124,255,0.09)}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:600}
+    .counter{font-weight:800;font-size:20px;color:var(--accent);text-align:center}
+    .progress-wrap{height:10px;background:var(--glass-2);border-radius:999px;overflow:hidden}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s linear}
 
-.meta{display:flex;gap:12px;align-items:center;margin-top:14px;color:var(--muted)}
-.meta .small{font-size:13px}
+    pre{
+      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+      padding:14px;
+      border-radius:10px;
+      font-family:Roboto Mono, monospace;
+      font-size:13px;
+      color:#dbeafe;
+      overflow:auto;
+      max-height:260px;
+      opacity:.85;
+      transition:opacity .3s ease;
+    }
 
-/* right - panel */
-.panel{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);
-  min-height:220px;display:flex;flex-direction:column;gap:12px;justify-content:space-between
-}
+    .script-actions{display:flex;gap:8px;align-items:center}
+    .copy-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      padding:8px 12px;border-radius:8px;cursor:pointer
+    }
+    .copy-btn.primary{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#02162a;border:none
+    }
 
-.panel header{display:flex;align-items:center;justify-content:space-between}
-.panel header .label{font-weight:700;color:#dfe9ff}
-.lang-toggle{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .note{font-size:13px;color:var(--muted);margin-top:6px}
+    footer{grid-column:1/-1;margin-top:8px;color:rgba(255,255,255,0.06);font-size:12px;text-align:center}
 
-.counter{font-weight:800;font-size:20px;color:var(--accent);text-align:center}
-.progress-wrap{height:10px;background:var(--glass-2);border-radius:999px;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s linear}
-
-pre{background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));padding:12px;border-radius:8px;font-family:Roboto Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, 'Segoe UI Mono',monospace;font-size:13px;color:#dbeafe;overflow:auto;max-height:260px}
-
-.script-actions{display:flex;gap:8px;align-items:center}
-.copy-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer}
-.copy-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#02162a;border:none}
-
-.note{font-size:13px;color:var(--muted);margin-top:6px}
-
-footer{grid-column:1/-1;margin-top:8px;color:rgba(255,255,255,0.06);font-size:12px;text-align:center}
-
-@media (max-width:880px){
-  .card{grid-template-columns:1fr;}
-  .panel{order:-1}
-}
-
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr;}
+      .panel{order:2;margin-top:16px}
+      .left{order:1}
+    }
   </style>
 </head>
 <body>
@@ -92,49 +128,52 @@ footer{grid-column:1/-1;margin-top:8px;color:rgba(255,255,255,0.06);font-size:12
     <div class="left">
       <button id="langBtn" class="lang-toggle" title="Đổi ngôn ngữ">VN</button>
       <h1 id="title">Follow TikTok → Hiển thị Script</h1>
-      <p class="lead" id="desc">Bấm nút để mở kênh TikTok. Sau khi bấm, hệ thống sẽ đếm ngược và hiển thị nội dung script .</p><div class="controls">
-    <button id="followBtn" class="btn">Mở kênh TikTok / Follow</button>
-    <button id="resetBtn" class="btn ghost">Reset</button>
-
-    <label style="margin-left:auto;color:var(--muted);display:flex;align-items:center;gap:8px"> <span id="delayLabel">Delay (giây):</span>
-      <input id="delayInput" type="number" min="1" value="5" style="width:70px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-    </label>
-  </div>
-
-  <div class="meta">
-    <div class="small" id="statusWrap">Trạng thái: <strong id="status">Chưa bấm</strong></div>
-    <div class="small">Đếm ngược: <span id="countdown">0</span>s</div>
-  </div>
-
-  <div class="note" id="noteText">LƯU Ý: bạn cần follow để lấy Script</div>
-</div>
-
-<aside class="panel">
-  <header>
-    <div class="label" id="scriptTitle">Script (hiển thị)</div>
-    <div style="font-size:12px;color:var(--muted)">Kênh: <span style="color:var(--accent)">@pilow.105</span></div>
-  </header>
-
-  <div>
-    <div class="counter" id="counterBig">0s</div>
-    <div class="progress-wrap" aria-hidden>
-      <div class="progress-bar" id="progressBar"></div>
+      <p class="lead" id="desc">Bấm nút để mở kênh TikTok. Sau khi bấm, hệ thống sẽ đếm ngược và hiển thị nội dung script .</p>
+      <div class="controls">
+        <button id="followBtn" class="btn">Mở kênh TikTok / Follow</button>
+        <button id="resetBtn" class="btn ghost">Reset</button>
+        <label style="margin-left:auto;color:var(--muted);display:flex;align-items:center;gap:8px">
+          <span id="delayLabel">Delay (giây):</span>
+          <input id="delayInput" type="number" min="1" value="5" style="width:70px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        </label>
+      </div>
+      <div class="meta">
+        <div class="small" id="statusWrap">Trạng thái: <strong id="status">Chưa bấm</strong></div>
+        <div class="small">Đếm ngược: <span id="countdown">0</span>s</div>
+      </div>
+      <div class="note" id="noteText">LƯU Ý: bạn cần follow để lấy Script</div>
     </div>
+
+    <aside class="panel">
+      <header>
+        <div class="label" id="scriptTitle">Script (hiển thị)</div>
+        <div style="font-size:12px;color:var(--muted)">Kênh: <span style="color:var(--accent)">@pilow.105</span></div>
+      </header>
+      <div>
+        <div class="counter" id="counterBig">0s</div>
+        <div class="progress-wrap" aria-hidden>
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+      <div>
+        <pre id="scriptPre">-- Script sẽ hiện ở đây --</pre>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <div class="script-actions">
+            <button id="copyBtn" class="copy-btn">Sao chép</button>
+            <button id="copyPrimary" class="copy-btn primary">Sao chép & Mở</button>
+          </div>
+          <div style="font-size:12px;color:var(--muted)">Ngôn ngữ: <span id="langLabel">VN</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <footer>ủng hộ YNhi Script</footer>
   </div>
 
-  <div>
-    <pre id="scriptPre">-- Script sẽ hiện ở đây
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseScript/refs/heads/main/UpdateZysume"))()</pre> <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"> <div class="script-actions"> <button id="copyBtn" class="copy-btn">Sao chép</button> <button id="copyPrimary" class="copy-btn primary">Sao chép & Mở</button> </div> <div style="font-size:12px;color:var(--muted)">Ngôn ngữ: <span id="langLabel">VN</span></div> </div> </div> </aside>
-
-<footer> ủng hộ YNhi Script </footer>
-
-  </div>  <script>
-    // ========== CÀI ĐẶT ==========
+  <script>
     const CHANNEL_URL = "https://www.tiktok.com/@pilow.105";
     const SCRIPT_CONTENT = `loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseScript/refs/heads/main/UpdateZysume"))()`;
 
-    // ========== NGÔN NGỮ ==========
     const storedLang = localStorage.getItem('lang_pref');
     const browserLang = navigator.language || navigator.userLanguage || 'en';
     let lang = storedLang || (browserLang.toLowerCase().startsWith('vi') ? 'vi' : 'en');
@@ -174,7 +213,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
       }
     };
 
-    // ========== ELEMENTS ==========
     const langBtn = document.getElementById('langBtn');
     const titleEl = document.getElementById('title');
     const descEl = document.getElementById('desc');
@@ -208,7 +246,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
       langBtn.textContent = (lang === 'vi') ? 'VN' : 'EN';
       langLabel.textContent = t.langLabel;
     }
-
     applyLang();
 
     langBtn.addEventListener('click', () => {
@@ -217,11 +254,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
       applyLang();
     });
 
-    // init script content
-    scriptPre.textContent = SCRIPT_CONTENT;
+    scriptPre.textContent = "-- Script sẽ hiện ở đây --";
 
     let timer = null;
-
     function setProgress(percent){
       progressBar.style.width = percent + '%';
       counterBig.textContent = Math.ceil(percent/100 * (parseInt(delayInput.value)||5)) + 's';
@@ -229,20 +264,19 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
 
     followBtn.addEventListener('click', () => {
       const delay = Math.max(1, parseInt(delayInput.value) || 5);
-      try{ window.open(CHANNEL_URL, '_blank'); }catch(e){ alert('Trình duyệt có thể chặn pop-up. Hãy mở link kênh bằng tay: ' + CHANNEL_URL);}      
-
+      try{ window.open(CHANNEL_URL, '_blank'); }
+      catch(e){ alert('Trình duyệt có thể chặn pop-up. Hãy mở link kênh bằng tay: ' + CHANNEL_URL);}
       statusEl.textContent = texts[lang].status_wait;
       progressBar.style.width = '0%';
       setProgress(0);
-      scriptPre.style.opacity = '0.85';
-
+      scriptPre.style.opacity = '0.6';
       if(timer) clearInterval(timer);
       let elapsed = 0;
-      timer = setInterval(() =>{
-        elapsed += 100/ (delay*10); // increase percent in 100 steps per second*10
-        if(elapsed >= 100){ elapsed = 100; clearInterval(timer); timer=null; revealScript(); }
+      timer = setInterval(()=>{
+        elapsed += 100/(delay*10);
+        if(elapsed >= 100){elapsed=100;clearInterval(timer);timer=null;revealScript();}
         setProgress(elapsed);
-      }, 100);
+      },100);
     });
 
     resetBtn.addEventListener('click', ()=>{
@@ -250,7 +284,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
       statusEl.textContent = texts[lang].status_not;
       progressBar.style.width = '0%';
       counterBig.textContent = '0s';
-      scriptPre.textContent = '...';
+      scriptPre.textContent = '-- Script sẽ hiện ở đây --';
       scriptPre.style.opacity = '0.6';
     });
 
@@ -270,20 +304,18 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ZysumeDupePet/ZymuseS
       }catch(e){ alert((lang==='vi')? 'Không thể sao chép tự động — hãy bôi đen và sao chép thủ công.' : 'Cannot auto-copy — please select and copy manually.'); }
     });
 
-    // copy + open (mở file/code ngay)
     copyPrimary.addEventListener('click', async()=>{
-      try{ await navigator.clipboard.writeText(SCRIPT_CONTENT); }catch(e){}
-      // optionally open a small textarea popup to show script
+      try{ await navigator.clipboard.writeText(SCRIPT_CONTENT);}catch(e){}
       const w = window.open('', '_blank');
       if(w){
-        w.document.write('<pre style="white-space:pre-wrap;font-family:monospace;padding:16px">'+SCRIPT_CONTENT.replace(/</g,'&lt;')+'</pre>');w.document.title = 'Script';
-  }else{
-    alert((lang==='vi')? 'Trình duyệt chặn pop-up — đã sao chép vào clipboard nếu được phép.' : 'Popup blocked — script copied to clipboard if allowed.');
-  }
-  copyPrimary.textContent = (lang==='vi')? 'Đã mở' : 'Opened';
-  setTimeout(()=>{ copyPrimary.textContent = texts[lang].copyPrimary; },1200);
-});
-
+        w.document.write('<pre style="white-space:pre-wrap;font-family:monospace;padding:16px">'+SCRIPT_CONTENT.replace(/</g,'&lt;')+'</pre>');
+        w.document.title = 'Script';
+      }else{
+        alert((lang==='vi')? 'Trình duyệt chặn pop-up — đã sao chép vào clipboard nếu được phép.' : 'Popup blocked — script copied to clipboard if allowed.');
+      }
+      copyPrimary.textContent = (lang==='vi')? 'Đã mở' : 'Opened';
+      setTimeout(()=>{ copyPrimary.textContent = texts[lang].copyPrimary; },1200);
+    });
   </script>
 </body>
 </html>
